@@ -13,3 +13,5 @@ SASSy Grid
 *The generated CSS is as simple and precise as that of a seasoned front-end professional.*
 - **Only SCSS required**
 *Requires SASS v3.0.0 supporting @extend.*
+
+View documentation [here](https://github.com/springload/sassy-grid/wiki).
