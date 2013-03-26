@@ -1,4 +1,3 @@
-
 // Setting empty array for storing settings and breakpoints
 $grid-settings-store: ();
 
@@ -12,7 +11,7 @@ $ie6-selector: '.ie6' !default;
 // if set to true, all columns will have their :before pseudo element
 // set with content describing the number of columns the current column is spanning
 $grid-debug: false !default;
-
+$grid-debug-css-comment: "Debug style only - this rule will not be present for production";
 
 
 // ------------------------------------------------------------- *
@@ -552,6 +551,7 @@ $grid-debug: false !default;
             width: percentage-round( $current-column-width / $row-width-inner );
             @if $grid-debug == true {
                 &:before{
+                    /* #{ $grid-debug-css-comment } */
                     content: "#{ $i } columns";
                 }
             }
@@ -613,6 +613,7 @@ $grid-debug: false !default;
         }
         @if $grid-debug == true {
             &:before{
+                /* #{ $grid-debug-css-comment } */
                 display: block;
                 top: 0;
                 left: 0;
