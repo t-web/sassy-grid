@@ -239,6 +239,10 @@ $inner-grid-column-width: ($full-width - $padding-left - $padding-right + $gutte
    ----------------------------- */
 .grid_container {
   max-width: 970px;
+  /* Locking IE6 and IE7 due to sub-pixel rounding issue */
+}
+.grid_container .ie7, .grid_container .ie6 {
+  width: 970px;
 }
 
 .grid_base_12 {

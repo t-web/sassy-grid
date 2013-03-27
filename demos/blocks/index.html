@@ -222,6 +222,10 @@ $number-of-blocks: 5;
    ----------------------------- */
 .grid_container {
   max-width: 1310.0px;
+  /* Locking IE6 and IE7 due to sub-pixel rounding issue */
+}
+.grid_container .ie7, .grid_container .ie6 {
+  width: 1310.0px;
 }
 
 .blocks {
