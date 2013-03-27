@@ -369,7 +369,7 @@ $grid-debug-css-comment: "Debug style only - this rule will not be present for p
             @if nth( $value, 1 ) == 'padding-left' {
                 $padding-left: nth( $value, 2 );
             }
-            @if nth( $value, 1 ) == 'apply-to-browsers-w/o-media-queries' {
+            @if nth( $value, 1 ) == 'apply-to-browsers-w/o-media-queries' or nth( $value, 1 ) == 'degredation-browser-default' {
                 $old-browser-support: nth( $value, 2 );
             }
         }
@@ -595,12 +595,12 @@ $grid-debug-css-comment: "Debug style only - this rule will not be present for p
         @if $is-fluid == true {
             max-width: #{ $row-width }px;
             @if $ie7-selector or $ie6-selector {
-            /* Locking IE6 and IE7 due to sub-pixel rounding issue */
                 $sub-px-fix-selector: "";
                 @if $ie7-selector { $sub-px-fix-selector: $ie7-selector + " &"; }
                 @if $ie6-selector { $sub-px-fix-selector: $ie6-selector + " &"; }
                 @if $ie7-selector and $ie6-selector { $sub-px-fix-selector: $ie7-selector + " &, " + $ie6-selector + " &"; }
                 #{ $sub-px-fix-selector }{
+                    /* Locking IE6 and IE7 due to sub-pixel rounding issue */
                     width: #{ $row-width }px;
                 }
             }
@@ -720,8 +720,9 @@ $grid-debug-css-comment: "Debug style only - this rule will not be present for p
                                         $breakout-placeholder-selector
                                     ), comma);
 /* -----------------------------
-   SASS Grid mixin
+   Sassy Grid mixin
    @author: Frej Raahede Nielsen
+   @documentation: http://springload.github.com/sassy-grid/
    ----------------------------- */
 
     // Outputting the placeholder selector styles
