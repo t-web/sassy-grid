@@ -189,6 +189,9 @@ $inner-grid-column-width: ($full-width - $padding-left - $padding-right + $gutte
 }
 
 .overlay_grid{
+    .grid_base_12{
+        height: 100%;
+    }
     .grid_col_1{
         @extend %grid_col;
         @include span-columns( $columns: 1, $grid-name: 'main-grid' );
@@ -388,6 +391,9 @@ $inner-grid-column-width: ($full-width - $padding-left - $padding-right + $gutte
   border-radius: 4px;
 }
 
+.overlay_grid .grid_base_12 {
+  height: 100%;
+}
 .overlay_grid .grid_col_1 {
   background: none;
 }

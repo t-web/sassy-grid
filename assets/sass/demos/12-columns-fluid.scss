@@ -81,6 +81,9 @@ $grid-debug: false;
 }
 
 .overlay_grid{
+    .grid_base_12{
+        height: 100%;
+    }
     .grid_col_1{
         @extend %grid_col;
         @include span-columns( $columns: 1, $grid-name: 'demo-grid' );

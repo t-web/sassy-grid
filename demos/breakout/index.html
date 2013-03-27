@@ -183,6 +183,9 @@ $media-query-print:     'print, projection';
 }
 
 .overlay_grid{
+    .grid_base_12{
+        height: 100%;
+    }
     .grid_col_1{
         @extend %grid_col;
         @include span-columns( $columns: 1, $grid-name: 'demo-grid' );
@@ -368,6 +371,9 @@ $media-query-print:     'print, projection';
   border-radius: 4px;
 }
 
+.overlay_grid .grid_base_12 {
+  height: 100%;
+}
 .overlay_grid .grid_col_1 {
   background: none;
 }

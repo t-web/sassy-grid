@@ -159,6 +159,10 @@ $grid-debug: false;
 }
 
 .overlay_grid{
+    .grid,
+    .wrapper{
+        height: 100%;
+    }
     .grid_col_1{
         @extend %grid_col;
         @include span-columns( $columns: 1, $grid-name: 'demo-grid' );
@@ -260,6 +264,10 @@ $grid-debug: false;
   border-radius: 4px;
 }
 
+.overlay_grid .grid,
+.overlay_grid .wrapper {
+  height: 100%;
+}
 .overlay_grid .grid_col_1 {
   background: none;
 }

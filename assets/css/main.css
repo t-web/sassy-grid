@@ -4349,6 +4349,9 @@ a.thumbnail:focus {
   background-color: transparent;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#10ff0000,endColorstr=#10ff0000);
 }
+.overlay_grid .grid_col_1 {
+  height: 100%;
+}
 .overlay_grid .grid_col_1:before {
   display: none !important;
 }

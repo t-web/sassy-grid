@@ -82,6 +82,10 @@
   border-radius: 4px;
 }
 
+.overlay_grid .grid,
+.overlay_grid .wrapper {
+  height: 100%;
+}
 .overlay_grid .grid_col_1 {
   background: none;
 }
