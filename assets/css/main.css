@@ -4343,11 +4343,17 @@ a.thumbnail:focus {
 }
 .overlay_grid img {
   height: 100%;
-  background-color: rgba(255, 0, 0, 0.1);
-}
-.no_rgba .overlay_grid img {
-  background-color: transparent;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#10ff0000,endColorstr=#10ff0000);
+  background-color: red;
+  /* IE 8 */
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
+  /* IE 5-7 */
+  filter: alpha(opacity=10);
+  /* Netscape */
+  -moz-opacity: 0.1;
+  /* Safari 1.x */
+  -khtml-opacity: 0.1;
+  /* Good browsers */
+  opacity: 0.1;
 }
 .overlay_grid .grid_col_1 {
   height: 100%;
