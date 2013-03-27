@@ -5,7 +5,10 @@ $grid-settings-store: ();
 // media queries. I.e. IE8 and down
 $degredation-selector: '.no_media_queries' !default;
 
-// IE6 selector: fixes double margin issue on IE6
+// IE7 selector: fixes sub-pixel rounding issue in IE7
+$ie7-selector: '.ie7' !default;
+
+// IE6 selector: fixes double margin issue and sub-pixel rounding issue in IE6
 $ie6-selector: '.ie6' !default;
 
 // if set to true, all columns will have their :before pseudo element
@@ -591,6 +594,16 @@ $grid-debug-css-comment: "Debug style only - this rule will not be present for p
     #{ $container-placeholder-selector } {
         @if $is-fluid == true {
             max-width: #{ $row-width }px;
+            @if $ie7-selector or $ie6-selector {
+            /* Locking IE6 and IE7 due to sub-pixel rounding issue */
+                $sub-px-fix-selector: "";
+                @if $ie7-selector { $sub-px-fix-selector: $ie7-selector + " &"; }
+                @if $ie6-selector { $sub-px-fix-selector: $ie6-selector + " &"; }
+                @if $ie7-selector and $ie6-selector { $sub-px-fix-selector: $ie7-selector + " &, " + $ie6-selector + " &"; }
+                #{ $sub-px-fix-selector }{
+                    width: #{ $row-width }px;
+                }
+            }
         } @else {
             width: #{ $row-width }px;
         }
