@@ -1,0 +1,427 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class='ie6 no_media_queries no_js' lang='en'><![endif]-->
+<!--[if IE 7]> <html class='ie7 no_media_queries no_js' lang='en'><![endif]-->
+<!--[if IE 8]> <html class='ie8 no_media_queries no_js' lang='en'><![endif]-->
+<!--[if gt IE 8]> <html class='modern_ie no_js' lang='en'><![endif]-->
+<!--[if !IE]><!--><html class='no_js' lang='en'><!--<![endif]-->
+
+<head>
+
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+
+    <title>Sassy Grid</title>
+
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta name='apple-mobile-web-app-capable' content='no'>
+
+    <!-- http://paulirish.com/2009/avoiding-the-fouc-v3/ -->
+    <script>document.documentElement.className = document.documentElement.className.replace(/\bno_js\b/,"js");</script>
+
+    <link rel='stylesheet' href='../../assets/css/main.css'>
+    
+    <link rel='stylesheet' href='../../assets/css/demos/12-columns-static.css'>
+    
+
+
+</head>
+<body>
+<div class='layout_wrapper'>
+    <div class='navbar'>
+        <div class='navbar-inner'>
+            <div class='container'>
+                <div class='nav-collapse collapse'>
+                    <ul class='nav'>
+                        <li>
+                            <a href='../../'><b>SASSy Grid</b></a>
+                        </li>
+                        <li class='active'>
+                            <a href='../../demos'>Demos</a>
+                        </li>
+                        <li>
+                            <a href='https://github.com/springload/sassy-grid/wiki'>Documentation</a>
+                        </li>
+                        <li>
+                            <a href='https://github.com/springload/sassy-grid'>Download on GitHub</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class='layout_wrapper'>
+    <div class='layout_content navbar button_bar'>
+		<a data-toggler data-target='overlay_grid' href='#' class='btn'>Overlay grid</a>
+		<a data-toggler data-target='html_source' id='html_source_btn' href='#' class='btn'>HTML</a>
+		<a data-toggler data-target='sass_source' id='sass_source_btn' href='#' class='btn'>SCSS</a>
+		<a data-toggler data-target='css_source' id='css_source_btn' href='#' class='btn'>CSS</a>
+    </div> <!-- /layout_content -->
+</div> <!-- /layout_wrapper -->
+
+<div id='sass_source' class='layout_wrapper'>
+    <div class='layout_content'>
+        <pre>
+// -------------------------------------------------------------
+// Importing grid core and clearfix
+// --------------------------------
+
+@import '../../externals/sassy-grid/sass/grid-core';
+@import '../../externals/sassy-grid/sass/clearfix';
+
+// -------------------------------------------------------------
+// Basic grid settings
+// -------------------
+
+$degredation-selector: '.no_media_queries';
+$ie6-selector: '.ie6';
+$grid-debug: false;
+
+// -------------------------------------------------------------
+// Defining the grid
+// -----------------
+
+@include define-grid-settings(
+    $grid-name: 'demo-grid',
+    $is-fluid: false,
+    $column-width: 40,
+    $gutter-width: 30,
+    $gutter-property: 'margin',
+    $num-columns: 12,
+    $padding-left: 80,
+    $padding-right: 80
+);
+
+// -------------------------------------------------------------
+// Applying the grid
+// -----------------
+
+@include apply-grid(
+    $use-grid: 'demo-grid',
+    $container-selector: '.grid_container',
+    $row-selector: '.grid_base_12',
+    $row-extend-selectors: '%grid_row',
+    $column-selector-prefix: '.grid_col_',
+    $column-extend-selectors: '%grid_col',
+    $output-column-styles-for: 1 3 4 6 12
+);
+
+// -------------------------------------------------------------
+// Basic grid styles
+// -----------------
+
+%grid_row{
+    @include clearfix;
+}
+
+%grid_col {
+    float: left;
+    .main &{
+        padding-bottom: 2em;
+    }
+}
+
+.grid_container{
+    @include clearfix;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ------------------------------------------------------------- *
+ * Demo styles
+ * ------------------------------------------------------------- */
+
+%grid_col{
+    background: #D8E6FF;
+    text-align: center;
+    line-height: 40px;
+    min-height: 40px;
+    margin-bottom: 15px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -khtml-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.overlay_grid{
+    .grid_col_1{
+        @extend %grid_col;
+        @include span-columns( $columns: 1, $grid-name: 'demo-grid' );
+        background: none;
+    }
+}
+
+        </pre>
+    </div> <!-- /layout_content -->
+</div>
+
+
+<p> <!-- /layout_wrapper --></p>
+
+<div id='css_source' class='layout_wrapper'>
+    <div class='layout_content'>
+        <pre>
+/* -----------------------------
+   Clearfix
+   ----------------------------- */
+.clearfix, .grid_base_12, .grid_container {
+  zoom: 1;
+}
+.clearfix:before, .grid_base_12:before, .grid_container:before, .clearfix:after, .grid_base_12:after, .grid_container:after {
+  content: " ";
+  display: table;
+}
+.clearfix:after, .grid_base_12:after, .grid_container:after {
+  clear: both;
+}
+
+/* -----------------------------
+   SASS Grid mixin
+   @author: Frej Raahede Nielsen
+   ----------------------------- */
+.grid_container {
+  width: 970px;
+}
+
+.grid_base_12 {
+  padding-left: 6.7%;
+  padding-right: 6.7%;
+}
+
+.grid_base_12 .grid_col_1, .grid_base_12 .grid_col_3, .grid_base_12 .grid_col_4, .grid_base_12 .grid_col_6, .grid_base_12 .grid_col_12, .overlay_grid .grid_col_1 {
+  margin-left: 1.78%;
+  margin-right: 1.78%;
+}
+
+.grid_base_12 .grid_col_1, .overlay_grid .grid_col_1 {
+  width: 4.76%;
+}
+
+.grid_base_12 .grid_col_3 {
+  width: 21.42%;
+}
+
+.grid_base_12 .grid_col_4 {
+  width: 29.76%;
+}
+
+.grid_base_12 .grid_col_6 {
+  width: 46.42%;
+}
+
+.grid_base_12 .grid_col_12 {
+  width: 96.42%;
+}
+
+/* IE6 fix: fixes double margin on floated elements */
+.ie6 .grid_base_12 .grid_col_1, .grid_base_12 .ie6 .grid_col_1, .ie6 .grid_base_12 .grid_col_3, .grid_base_12 .ie6 .grid_col_3, .ie6 .grid_base_12 .grid_col_4, .grid_base_12 .ie6 .grid_col_4, .ie6 .grid_base_12 .grid_col_6, .grid_base_12 .ie6 .grid_col_6, .ie6 .grid_base_12 .grid_col_12, .grid_base_12 .ie6 .grid_col_12, .ie6 .overlay_grid .grid_col_1, .overlay_grid .ie6 .grid_col_1 {
+  display: inline;
+}
+
+.grid_base_12 .grid_col_1, .grid_base_12 .grid_col_3, .grid_base_12 .grid_col_4, .grid_base_12 .grid_col_6, .grid_base_12 .grid_col_12, .overlay_grid .grid_col_1 {
+  float: left;
+}
+.main .grid_base_12 .grid_col_1, .grid_base_12 .main .grid_col_1, .main .grid_base_12 .grid_col_3, .grid_base_12 .main .grid_col_3, .main .grid_base_12 .grid_col_4, .grid_base_12 .main .grid_col_4, .main .grid_base_12 .grid_col_6, .grid_base_12 .main .grid_col_6, .main .grid_base_12 .grid_col_12, .grid_base_12 .main .grid_col_12, .main .overlay_grid .grid_col_1, .overlay_grid .main .grid_col_1 {
+  padding-bottom: 2em;
+}
+
+.grid_container {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ------------------------------------------------------------- *
+ * Demo styles
+ * ------------------------------------------------------------- */
+.grid_base_12 .grid_col_1, .grid_base_12 .grid_col_3, .grid_base_12 .grid_col_4, .grid_base_12 .grid_col_6, .grid_base_12 .grid_col_12, .overlay_grid .grid_col_1 {
+  background: #D8E6FF;
+  text-align: center;
+  line-height: 40px;
+  min-height: 40px;
+  margin-bottom: 15px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -khtml-border-radius: 4px;
+  border-radius: 4px;
+}
+
+.overlay_grid .grid_col_1 {
+  background: none;
+}
+
+        </pre>
+    </div> <!-- /layout_content -->
+</div>
+
+
+<p> <!-- /layout_wrapper --></p>
+
+<div id='html_source' class='layout_wrapper'>
+    <div class='layout_content'>
+        <pre>
+&lt;div class='grid_container'>
+    &lt;div class='grid_base_12'>
+        &lt;div class='grid_col_12'>
+            12
+        &lt;/div> &lt;!-- /grid_col_12 -->
+        &lt;div class='grid_col_6'>
+            6
+        &lt;/div> &lt;!-- /grid_col_6 -->
+        &lt;div class='grid_col_6'>
+            6
+        &lt;/div> &lt;!-- /grid_col_6 -->
+        &lt;div class='grid_col_4'>
+            4
+        &lt;/div> &lt;!-- /grid_col_4 -->
+        &lt;div class='grid_col_4'>
+            4
+        &lt;/div> &lt;!-- /grid_col_4 -->
+        &lt;div class='grid_col_4'>
+            4
+        &lt;/div> &lt;!-- /grid_col_4 -->
+        &lt;div class='grid_col_3'>
+            3
+        &lt;/div> &lt;!-- /grid_col_3 -->
+        &lt;div class='grid_col_3'>
+            3
+        &lt;/div> &lt;!-- /grid_col_3 -->
+        &lt;div class='grid_col_3'>
+            3
+        &lt;/div> &lt;!-- /grid_col_3 -->
+        &lt;div class='grid_col_3'>
+            3
+        &lt;/div> &lt;!-- /grid_col_3 -->
+    &lt;/div> &lt;!-- /grid_base_12 -->
+&lt;/div> &lt;!-- /grid_container -->
+        </pre>
+    </div> <!-- /layout_content -->
+</div>
+
+
+<p> <!-- /layout_wrapper --></p>
+
+<div class='grid_container'>
+    <div class='grid_base_12'>
+        <div class='grid_col_12'>
+            12
+        </div> <!-- /grid_col_12 -->
+        <div class='grid_col_6'>
+            6
+        </div> <!-- /grid_col_6 -->
+        <div class='grid_col_6'>
+            6
+        </div> <!-- /grid_col_6 -->
+        <div class='grid_col_4'>
+            4
+        </div> <!-- /grid_col_4 -->
+        <div class='grid_col_4'>
+            4
+        </div> <!-- /grid_col_4 -->
+        <div class='grid_col_4'>
+            4
+        </div> <!-- /grid_col_4 -->
+        <div class='grid_col_3'>
+            3
+        </div> <!-- /grid_col_3 -->
+        <div class='grid_col_3'>
+            3
+        </div> <!-- /grid_col_3 -->
+        <div class='grid_col_3'>
+            3
+        </div> <!-- /grid_col_3 -->
+        <div class='grid_col_3'>
+            3
+        </div> <!-- /grid_col_3 -->
+    </div> <!-- /grid_base_12 -->
+</div>
+
+
+<p> <!-- /grid_container --></p>
+
+<div class='overlay_grid' id='overlay_grid'>
+    <div class='grid_container'>
+        <div class='grid_base_12'>
+            
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+        </div> <!-- /grid_base_12 -->
+    </div> <!-- /grid_container -->
+</div>
+
+
+<p> <!-- /overlay_grid --></p>
+
+
+
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type='text/javascript'>
+	$(document).ready(function() {
+
+		$.each($("[data-toggler]"), function(){
+			var targetId = $(this).attr("data-target");
+			var $target = $("#"+targetId);
+			$(this).click(function(e){
+				e.preventDefault();
+				$(this).siblings(".btn-primary").click();
+				$target.toggleClass("active");
+				$(this).toggleClass("btn-primary");
+
+			});
+		});
+
+	});
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,511 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class='ie6 no_media_queries no_js' lang='en'><![endif]-->
+<!--[if IE 7]> <html class='ie7 no_media_queries no_js' lang='en'><![endif]-->
+<!--[if IE 8]> <html class='ie8 no_media_queries no_js' lang='en'><![endif]-->
+<!--[if gt IE 8]> <html class='modern_ie no_js' lang='en'><![endif]-->
+<!--[if !IE]><!--><html class='no_js' lang='en'><!--<![endif]-->
+
+<head>
+
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+
+    <title>Sassy Grid</title>
+
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta name='apple-mobile-web-app-capable' content='no'>
+
+    <!-- http://paulirish.com/2009/avoiding-the-fouc-v3/ -->
+    <script>document.documentElement.className = document.documentElement.className.replace(/\bno_js\b/,"js");</script>
+
+    <link rel='stylesheet' href='../../assets/css/main.css'>
+    
+    <link rel='stylesheet' href='../../assets/css/demos/blocks.css'>
+    
+
+
+</head>
+<body>
+<div class='layout_wrapper'>
+    <div class='navbar'>
+        <div class='navbar-inner'>
+            <div class='container'>
+                <div class='nav-collapse collapse'>
+                    <ul class='nav'>
+                        <li>
+                            <a href='../../'><b>SASSy Grid</b></a>
+                        </li>
+                        <li class='active'>
+                            <a href='../../demos'>Demos</a>
+                        </li>
+                        <li>
+                            <a href='https://github.com/springload/sassy-grid/wiki'>Documentation</a>
+                        </li>
+                        <li>
+                            <a href='https://github.com/springload/sassy-grid'>Download on GitHub</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class='layout_wrapper'>
+    <div class='layout_content navbar button_bar'>
+		<a data-toggler data-target='overlay_grid' href='#' class='btn'>Overlay grid</a>
+		<a data-toggler data-target='html_source' id='html_source_btn' href='#' class='btn'>HTML</a>
+		<a data-toggler data-target='sass_source' id='sass_source_btn' href='#' class='btn'>SCSS</a>
+		<a data-toggler data-target='css_source' id='css_source_btn' href='#' class='btn'>CSS</a>
+    </div> <!-- /layout_content -->
+</div> <!-- /layout_wrapper -->
+
+<div id='sass_source' class='layout_wrapper'>
+    <div class='layout_content'>
+        <pre>
+// -------------------------------------------------------------
+// Importing grid core and clearfix
+// --------------------------------
+
+@import '../../externals/sassy-grid/sass/grid-core';
+@import '../../externals/sassy-grid/sass/clearfix';
+
+// -------------------------------------------------------------
+// Basic grid settings
+// -------------------
+
+$degredation-selector: '.no_media_queries';
+$ie6-selector: '.ie6';
+$grid-debug: true;
+
+// -------------------------------------------------------------
+// Defining the grid
+// -----------------
+
+$block-width: 250;
+$number-of-blocks: 5;
+
+@include define-grid-settings(
+    $grid-name: 'block-grid',
+    $is-fluid: true,
+    $column-width: ( $block-width / 60 * $number-of-blocks ),
+    $gutter-width: 0,
+    $num-columns: 60,
+    $padding-left: 30,
+    $padding-right: 30,
+    $breakpoints: (
+        (
+            query 'screen and (max-width: #{ $block-width / 2 + $block-width * 4 }px)'
+        ),
+        (
+            query 'screen and (max-width: #{ $block-width / 2 + $block-width * 3 }px)'
+        ),
+        (
+            query 'screen and (max-width: #{ $block-width / 2 + $block-width * 2 }px)'
+        ),
+        (
+            query 'screen and (max-width: #{ $block-width / 2 + $block-width * 1 }px)'
+        )
+    )
+);
+
+// -------------------------------------------------------------
+// Applying the grid
+// -----------------
+
+@include apply-grid(
+    $use-grid: 'block-grid',
+    $container-selector: '.grid_container',
+    $row-selector: '.blocks',
+    $row-extend-selectors: '%grid_row',
+    $column-selector-prefix: 'grid_col_',
+    $output-column-styles-for: 60,
+    $break-columns: (
+        (
+            breakpoint 1,
+            selector '%quarter',
+            columns 15
+        ),
+        (
+            breakpoint 2,
+            selector '%third',
+            columns 20
+        ),
+        (
+            breakpoint 3,
+            selector '%half',
+            columns 30
+        ),
+        (
+            breakpoint 4,
+            selector '%full',
+            columns 60
+        )
+    )
+);
+
+// -------------------------------------------------------------
+// Basic grid styles
+// -----------------
+
+.blocks{
+    .block{
+        @include span-columns( $columns: 12, $grid-name: 'block-grid' );
+        @extend %quarter;
+        @extend %third;
+        @extend %half;
+        @extend %full;
+        float: left;
+        .main &{
+            padding-bottom: 2em;
+        }
+    }
+}
+
+%grid_row{
+    @include clearfix;
+}
+
+.grid_container{
+    @include clearfix;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ------------------------------------------------------------- *
+ * Demo styles
+ * ------------------------------------------------------------- */
+
+.block{
+    margin-bottom: 20px;
+    img{
+        width: 100%;
+        height: 80px;
+        background: #D8E6FF;
+    }
+    p{
+        padding: .5em 1em;
+    }
+    .figure{
+        margin: 0 10px;
+        border: 1px solid #ccc;
+    }
+}
+        </pre>
+    </div> <!-- /layout_content -->
+</div>
+
+
+<p> <!-- /layout_wrapper --></p>
+
+<div id='css_source' class='layout_wrapper'>
+    <div class='layout_content'>
+        <pre>
+/* -----------------------------
+   Clearfix
+   ----------------------------- */
+.clearfix, .blocks, .grid_container {
+  zoom: 1;
+}
+.clearfix:before, .blocks:before, .grid_container:before, .clearfix:after, .blocks:after, .grid_container:after {
+  content: " ";
+  display: table;
+}
+.clearfix:after, .blocks:after, .grid_container:after {
+  clear: both;
+}
+
+/* -----------------------------
+   SASS Grid mixin
+   @author: Frej Raahede Nielsen
+   ----------------------------- */
+.grid_container {
+  max-width: 1310.0px;
+}
+
+.blocks {
+  padding-left: 2.29%;
+  padding-right: 2.29%;
+}
+
+.blocks grid_col_60, .blocks .block {
+  padding-left: 0%;
+  padding-right: 0%;
+}
+.blocks grid_col_60:before, .blocks .block:before {
+  /* Debug style only - this rule will not be present for production */
+  display: block;
+  top: 0;
+  left: 0;
+  font-size: 12px;
+  background-color: rgba(0, 0, 0, 0.4);
+  line-height: 12px;
+  padding: 1px 2px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.blocks .block {
+  width: 20%;
+}
+.blocks .block:before {
+  /* Debug style only - this rule will not be present for production */
+  content: "12 columns";
+}
+
+.blocks grid_col_60 {
+  width: 100%;
+}
+.blocks grid_col_60:before {
+  /* Debug style only - this rule will not be present for production */
+  content: "60 columns";
+}
+
+@media screen and (max-width: 1125px) {
+  .blocks .block {
+    width: 25%;
+  }
+  .blocks .block:before {
+    /* Debug style only - this rule will not be present for production */
+    content: "15 columns";
+  }
+}
+@media screen and (max-width: 875px) {
+  .blocks .block {
+    width: 33.33%;
+  }
+  .blocks .block:before {
+    /* Debug style only - this rule will not be present for production */
+    content: "20 columns";
+  }
+}
+@media screen and (max-width: 625px) {
+  .blocks .block {
+    width: 50%;
+  }
+  .blocks .block:before {
+    /* Debug style only - this rule will not be present for production */
+    content: "30 columns";
+  }
+}
+@media screen and (max-width: 375px) {
+  .blocks .block {
+    width: 100%;
+  }
+  .blocks .block:before {
+    /* Debug style only - this rule will not be present for production */
+    content: "60 columns";
+  }
+}
+/* IE6 fix: fixes double margin on floated elements */
+.ie6 .blocks grid_col_60, .blocks .ie6 grid_col_60, .ie6 .blocks .block, .blocks .ie6 .block {
+  display: inline;
+}
+
+.blocks .block {
+  float: left;
+}
+.main .blocks .block {
+  padding-bottom: 2em;
+}
+
+.grid_container {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ------------------------------------------------------------- *
+ * Demo styles
+ * ------------------------------------------------------------- */
+.block {
+  margin-bottom: 20px;
+}
+.block img {
+  width: 100%;
+  height: 80px;
+  background: #D8E6FF;
+}
+.block p {
+  padding: 0.5em 1em;
+}
+.block .figure {
+  margin: 0 10px;
+  border: 1px solid #cccccc;
+}
+
+        </pre>
+    </div> <!-- /layout_content -->
+</div>
+
+
+<p> <!-- /layout_wrapper --></p>
+
+<div id='html_source' class='layout_wrapper'>
+    <div class='layout_content'>
+        <pre>
+&lt;div class='grid_container'>
+    &lt;div class='blocks'>
+        &lt;div class='block'>
+            &lt;div class='figure'>
+                &lt;img src='../../assets/images/blank.png'>
+                &lt;p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu tortor sapien, tincidunt molestie urna.&lt;/p>
+            &lt;/div>
+        &lt;/div> &lt;!-- /block -->
+        &lt;div class='block'>
+            &lt;div class='figure'>
+                &lt;img src='../../assets/images/blank.png'>
+                &lt;p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu tortor sapien, tincidunt molestie urna.&lt;/p>
+            &lt;/div>
+        &lt;/div> &lt;!-- /block -->
+        &lt;div class='block'>
+            &lt;div class='figure'>
+                &lt;img src='../../assets/images/blank.png'>
+                &lt;p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu tortor sapien, tincidunt molestie urna.&lt;/p>
+            &lt;/div>
+        &lt;/div> &lt;!-- /block -->
+        &lt;div class='block'>
+            &lt;div class='figure'>
+                &lt;img src='../../assets/images/blank.png'>
+                &lt;p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu tortor sapien, tincidunt molestie urna.&lt;/p>
+            &lt;/div>
+        &lt;/div> &lt;!-- /block -->
+        &lt;div class='block'>
+            &lt;div class='figure'>
+                &lt;img src='../../assets/images/blank.png'>
+                &lt;p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu tortor sapien, tincidunt molestie urna.&lt;/p>
+            &lt;/div>
+        &lt;/div> &lt;!-- /block -->
+        &lt;div class='block'>
+            &lt;div class='figure'>
+                &lt;img src='../../assets/images/blank.png'>
+                &lt;p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu tortor sapien, tincidunt molestie urna.&lt;/p>
+            &lt;/div>
+        &lt;/div> &lt;!-- /block -->
+        &lt;div class='block'>
+            &lt;div class='figure'>
+                &lt;img src='../../assets/images/blank.png'>
+                &lt;p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu tortor sapien, tincidunt molestie urna.&lt;/p>
+            &lt;/div>
+        &lt;/div> &lt;!-- /block -->
+        &lt;div class='block'>
+            &lt;div class='figure'>
+                &lt;img src='../../assets/images/blank.png'>
+                &lt;p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu tortor sapien, tincidunt molestie urna.&lt;/p>
+            &lt;/div>
+        &lt;/div> &lt;!-- /block -->
+        &lt;div class='block'>
+            &lt;div class='figure'>
+                &lt;img src='../../assets/images/blank.png'>
+                &lt;p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu tortor sapien, tincidunt molestie urna.&lt;/p>
+            &lt;/div>
+        &lt;/div> &lt;!-- /block -->
+        &lt;div class='block'>
+            &lt;div class='figure'>
+                &lt;img src='../../assets/images/blank.png'>
+                &lt;p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu tortor sapien, tincidunt molestie urna.&lt;/p>
+            &lt;/div>
+        &lt;/div> &lt;!-- /block -->
+    &lt;/div> &lt;!-- /blocks -->
+&lt;/div> &lt;!-- /grid_container -->
+        </pre>
+    </div> <!-- /layout_content -->
+</div>
+
+
+<p> <!-- /layout_wrapper --></p>
+
+<div class='grid_container'>
+    <div class='blocks'>
+        <div class='block'>
+            <div class='figure'>
+                <img src='../../assets/images/blank.png'>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu tortor sapien, tincidunt molestie urna.</p>
+            </div>
+        </div> <!-- /block -->
+        <div class='block'>
+            <div class='figure'>
+                <img src='../../assets/images/blank.png'>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu tortor sapien, tincidunt molestie urna.</p>
+            </div>
+        </div> <!-- /block -->
+        <div class='block'>
+            <div class='figure'>
+                <img src='../../assets/images/blank.png'>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu tortor sapien, tincidunt molestie urna.</p>
+            </div>
+        </div> <!-- /block -->
+        <div class='block'>
+            <div class='figure'>
+                <img src='../../assets/images/blank.png'>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu tortor sapien, tincidunt molestie urna.</p>
+            </div>
+        </div> <!-- /block -->
+        <div class='block'>
+            <div class='figure'>
+                <img src='../../assets/images/blank.png'>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu tortor sapien, tincidunt molestie urna.</p>
+            </div>
+        </div> <!-- /block -->
+        <div class='block'>
+            <div class='figure'>
+                <img src='../../assets/images/blank.png'>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu tortor sapien, tincidunt molestie urna.</p>
+            </div>
+        </div> <!-- /block -->
+        <div class='block'>
+            <div class='figure'>
+                <img src='../../assets/images/blank.png'>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu tortor sapien, tincidunt molestie urna.</p>
+            </div>
+        </div> <!-- /block -->
+        <div class='block'>
+            <div class='figure'>
+                <img src='../../assets/images/blank.png'>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu tortor sapien, tincidunt molestie urna.</p>
+            </div>
+        </div> <!-- /block -->
+        <div class='block'>
+            <div class='figure'>
+                <img src='../../assets/images/blank.png'>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu tortor sapien, tincidunt molestie urna.</p>
+            </div>
+        </div> <!-- /block -->
+        <div class='block'>
+            <div class='figure'>
+                <img src='../../assets/images/blank.png'>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu tortor sapien, tincidunt molestie urna.</p>
+            </div>
+        </div> <!-- /block -->
+    </div> <!-- /blocks -->
+</div>
+
+
+<p> <!-- /grid_container --></p>
+
+
+
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type='text/javascript'>
+	$(document).ready(function() {
+
+		$.each($("[data-toggler]"), function(){
+			var targetId = $(this).attr("data-target");
+			var $target = $("#"+targetId);
+			$(this).click(function(e){
+				e.preventDefault();
+				$(this).siblings(".btn-primary").click();
+				$target.toggleClass("active");
+				$(this).toggleClass("btn-primary");
+
+			});
+		});
+
+	});
+</script>
+
+
+</body>
+</html>

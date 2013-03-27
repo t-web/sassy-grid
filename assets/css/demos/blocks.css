@@ -1,0 +1,131 @@
+/* -----------------------------
+   Clearfix
+   ----------------------------- */
+.clearfix, .blocks, .grid_container {
+  zoom: 1;
+}
+.clearfix:before, .blocks:before, .grid_container:before, .clearfix:after, .blocks:after, .grid_container:after {
+  content: " ";
+  display: table;
+}
+.clearfix:after, .blocks:after, .grid_container:after {
+  clear: both;
+}
+
+/* -----------------------------
+   SASS Grid mixin
+   @author: Frej Raahede Nielsen
+   ----------------------------- */
+.grid_container {
+  max-width: 1310.0px;
+}
+
+.blocks {
+  padding-left: 2.29%;
+  padding-right: 2.29%;
+}
+
+.blocks grid_col_60, .blocks .block {
+  padding-left: 0%;
+  padding-right: 0%;
+}
+.blocks grid_col_60:before, .blocks .block:before {
+  /* Debug style only - this rule will not be present for production */
+  display: block;
+  top: 0;
+  left: 0;
+  font-size: 12px;
+  background-color: rgba(0, 0, 0, 0.4);
+  line-height: 12px;
+  padding: 1px 2px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.blocks .block {
+  width: 20%;
+}
+.blocks .block:before {
+  /* Debug style only - this rule will not be present for production */
+  content: "12 columns";
+}
+
+.blocks grid_col_60 {
+  width: 100%;
+}
+.blocks grid_col_60:before {
+  /* Debug style only - this rule will not be present for production */
+  content: "60 columns";
+}
+
+@media screen and (max-width: 1125px) {
+  .blocks .block {
+    width: 25%;
+  }
+  .blocks .block:before {
+    /* Debug style only - this rule will not be present for production */
+    content: "15 columns";
+  }
+}
+@media screen and (max-width: 875px) {
+  .blocks .block {
+    width: 33.33%;
+  }
+  .blocks .block:before {
+    /* Debug style only - this rule will not be present for production */
+    content: "20 columns";
+  }
+}
+@media screen and (max-width: 625px) {
+  .blocks .block {
+    width: 50%;
+  }
+  .blocks .block:before {
+    /* Debug style only - this rule will not be present for production */
+    content: "30 columns";
+  }
+}
+@media screen and (max-width: 375px) {
+  .blocks .block {
+    width: 100%;
+  }
+  .blocks .block:before {
+    /* Debug style only - this rule will not be present for production */
+    content: "60 columns";
+  }
+}
+/* IE6 fix: fixes double margin on floated elements */
+.ie6 .blocks grid_col_60, .blocks .ie6 grid_col_60, .ie6 .blocks .block, .blocks .ie6 .block {
+  display: inline;
+}
+
+.blocks .block {
+  float: left;
+}
+.main .blocks .block {
+  padding-bottom: 2em;
+}
+
+.grid_container {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ------------------------------------------------------------- *
+ * Demo styles
+ * ------------------------------------------------------------- */
+.block {
+  margin-bottom: 20px;
+}
+.block img {
+  width: 100%;
+  height: 80px;
+  background: #D8E6FF;
+}
+.block p {
+  padding: 0.5em 1em;
+}
+.block .figure {
+  margin: 0 10px;
+  border: 1px solid #cccccc;
+}

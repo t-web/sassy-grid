@@ -1,0 +1,135 @@
+// -------------------------------------------------------------
+// Importing grid core and clearfix
+// --------------------------------
+
+@import '../../externals/sassy-grid/sass/grid-core';
+@import '../../externals/sassy-grid/sass/clearfix';
+
+// -------------------------------------------------------------
+// Basic grid settings
+// -------------------
+
+$degredation-selector: '.no_media_queries';
+$ie6-selector: '.ie6';
+$grid-debug: true;
+
+// -------------------------------------------------------------
+// Defining breakpoints
+// --------------------
+
+$media-breakpoint-mobile: 640;
+$media-breakpoint-skinny: 860;
+
+$media-query-mobile:    'screen and (max-width: #{ $media-breakpoint-mobile }px)';
+$media-query-skinny:    'screen and (max-width: #{ $media-breakpoint-skinny }px)';
+$media-query-print:     'print, projection';
+
+// -------------------------------------------------------------
+// Defining the grid
+// -----------------
+
+@include define-grid-settings(
+    $grid-name: 'demo-grid',
+    $is-fluid: true,
+    $column-width: 40,
+    $gutter-width: 30,
+    $gutter-property: 'margin',
+    $num-columns: 12,
+    $padding-left: 80,
+    $padding-right: 80,
+    $breakpoints: (
+        (
+            query $media-query-skinny,
+            max-width 700px,
+            padding-left 20px,
+            padding-right 20px
+        ),
+        (
+            query $media-query-mobile,
+            max-width 100%,
+            padding-left 2%,
+            padding-right 2%
+        ),
+        (
+            query $media-query-print,
+            max-width 100%,
+            padding-left .5em,
+            padding-right .5em
+        )
+    )
+);
+
+// -------------------------------------------------------------
+// Applying the grid
+// -----------------
+
+@include apply-grid(
+    $use-grid: 'demo-grid',
+    $container-selector: '.grid_container',
+    $row-selector: '.grid_base_12',
+    $row-extend-selectors: '%grid_row',
+    $column-selector-prefix: '.grid_col_',
+    $column-extend-selectors: '%grid_col',
+    $output-column-styles-for: 4 6 12
+);
+
+// -------------------------------------------------------------
+// Basic grid styles
+// -----------------
+
+%grid_row{
+    @include clearfix;
+}
+
+%grid_col {
+    float: left;
+    .main &{
+        padding-bottom: 2em;
+    }
+}
+
+.breakout {
+    @extend %grid_col;
+    @include grid-breakout( 'demo-grid' );
+}
+
+.grid_container{
+    @include clearfix;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* ------------------------------------------------------------- *
+ * Demo styles
+ * ------------------------------------------------------------- */
+
+%grid_col{
+    background: #D8E6FF;
+    text-align: center;
+    line-height: 40px;
+    min-height: 40px;
+    margin-bottom: 15px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -khtml-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.overlay_grid{
+    .grid_col_1{
+        @extend %grid_col;
+        @include span-columns( $columns: 1, $grid-name: 'demo-grid' );
+        background: none;
+    }
+}
+
+.breakout{
+    background: #C1F0C4;
+    line-height: normal;
+    text-align: left;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -khtml-border-radius: 0;
+    border-radius: 0;
+}

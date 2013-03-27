@@ -1,0 +1,593 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class='ie6 no_media_queries no_js' lang='en'><![endif]-->
+<!--[if IE 7]> <html class='ie7 no_media_queries no_js' lang='en'><![endif]-->
+<!--[if IE 8]> <html class='ie8 no_media_queries no_js' lang='en'><![endif]-->
+<!--[if gt IE 8]> <html class='modern_ie no_js' lang='en'><![endif]-->
+<!--[if !IE]><!--><html class='no_js' lang='en'><!--<![endif]-->
+
+<head>
+
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+
+    <title>Sassy Grid</title>
+
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta name='apple-mobile-web-app-capable' content='no'>
+
+    <!-- http://paulirish.com/2009/avoiding-the-fouc-v3/ -->
+    <script>document.documentElement.className = document.documentElement.className.replace(/\bno_js\b/,"js");</script>
+
+    <link rel='stylesheet' href='../../assets/css/main.css'>
+    
+    <link rel='stylesheet' href='../../assets/css/demos/embedded-grid.css'>
+    
+
+
+</head>
+<body>
+<div class='layout_wrapper'>
+    <div class='navbar'>
+        <div class='navbar-inner'>
+            <div class='container'>
+                <div class='nav-collapse collapse'>
+                    <ul class='nav'>
+                        <li>
+                            <a href='../../'><b>SASSy Grid</b></a>
+                        </li>
+                        <li class='active'>
+                            <a href='../../demos'>Demos</a>
+                        </li>
+                        <li>
+                            <a href='https://github.com/springload/sassy-grid/wiki'>Documentation</a>
+                        </li>
+                        <li>
+                            <a href='https://github.com/springload/sassy-grid'>Download on GitHub</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class='layout_wrapper'>
+    <div class='layout_content navbar button_bar'>
+		<a data-toggler data-target='overlay_grid' href='#' class='btn'>Overlay grid</a>
+		<a data-toggler data-target='html_source' id='html_source_btn' href='#' class='btn'>HTML</a>
+		<a data-toggler data-target='sass_source' id='sass_source_btn' href='#' class='btn'>SCSS</a>
+		<a data-toggler data-target='css_source' id='css_source_btn' href='#' class='btn'>CSS</a>
+    </div> <!-- /layout_content -->
+</div> <!-- /layout_wrapper -->
+
+<div id='sass_source' class='layout_wrapper'>
+    <div class='layout_content'>
+        <pre>
+// -------------------------------------------------------------
+// Importing grid core and clearfix
+// --------------------------------
+
+@import '../../externals/sassy-grid/sass/grid-core';
+@import '../../externals/sassy-grid/sass/clearfix';
+
+// -------------------------------------------------------------
+// Basic grid settings
+// -------------------
+
+$degredation-selector: '.no_media_queries';
+$ie6-selector: '.ie6';
+$grid-debug: true;
+
+// -------------------------------------------------------------
+// Defining main grid
+// -----------------
+
+@include define-grid-settings(
+    $grid-name: 'main-grid',
+    $is-fluid: true,
+    $column-width: 40,
+    $gutter-width: 30,
+    $gutter-property: 'margin',
+    $num-columns: 12,
+    $padding-left: 80,
+    $padding-right: 80
+);
+
+// -------------------------------------------------------------
+// Applying main grid
+// -----------------
+
+@include apply-grid(
+    $use-grid: 'main-grid',
+    $container-selector: '.grid_container',
+    $row-selector: '.grid_base_12',
+    $row-extend-selectors: '%grid_row',
+    $column-selector-prefix: '.grid_col_',
+    $column-extend-selectors: '%grid_col',
+    $output-column-styles-for: 4 6 12
+);
+
+// -------------------------------------------------------------
+// Defining inner grid
+// -------------------
+
+// Getting settings from main grid
+$full-width: return-grid-settings( 'main-grid', 'row-width' );
+$padding-left: return-grid-settings( 'main-grid', 'padding-left' );
+$padding-right: return-grid-settings( 'main-grid', 'padding-right' );
+$gutter: return-grid-settings( 'main-grid', 'gutter-width' );
+
+// Calculating column width for a 5 column grid relative to the main grid
+$inner-grid-column-width: ($full-width - $padding-left - $padding-right + $gutter) / 5 - $gutter;
+
+@include define-grid-settings(
+    $grid-name: 'inner-grid',
+    $is-fluid: true,
+    $column-width: $inner-grid-column-width,
+    $gutter-width: 30,
+    $gutter-property: 'margin',
+    $num-columns: 5,
+    $padding-left: 80,
+    $padding-right: 80
+);
+
+// -------------------------------------------------------------
+// Applying inner grid
+// -------------------
+
+@include apply-grid(
+    $use-grid: 'inner-grid',
+    $row-selector: '.inner_row',
+    $row-extend-selectors: '%grid_row',
+    $column-selector-prefix: '.grid_col_',
+    $column-extend-selectors: '%grid_col',
+    $output-column-styles-for: 2 3 5
+);
+
+// -------------------------------------------------------------
+// Basic grid styles
+// -----------------
+
+%grid_row{
+    @include clearfix;
+}
+
+%grid_col {
+    float: left;
+    .main &{
+        padding-bottom: 2em;
+    }
+}
+
+.breakout {
+    @extend %grid_col;
+    @include grid-breakout( 'main-grid' );
+    background: #CCC;
+}
+
+.grid_container{
+    @include clearfix;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ------------------------------------------------------------- *
+ * Demo styles
+ * ------------------------------------------------------------- */
+
+%grid_col{
+    background: #D8E6FF;
+    text-align: center;
+    line-height: 40px;
+    min-height: 40px;
+    margin-bottom: 15px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -khtml-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.overlay_grid{
+    .grid_col_1{
+        @extend %grid_col;
+        @include span-columns( $columns: 1, $grid-name: 'main-grid' );
+        background: none;
+    }
+}
+
+.breakout{
+    background: #C1F0C4;
+    line-height: normal;
+    text-align: left;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -khtml-border-radius: 0;
+    border-radius: 0;
+}
+
+        </pre>
+    </div> <!-- /layout_content -->
+</div>
+
+
+<p> <!-- /layout_wrapper --></p>
+
+<div id='css_source' class='layout_wrapper'>
+    <div class='layout_content'>
+        <pre>
+/* -----------------------------
+   Clearfix
+   ----------------------------- */
+.clearfix, .grid_base_12, .inner_row, .grid_container {
+  zoom: 1;
+}
+.clearfix:before, .grid_base_12:before, .inner_row:before, .grid_container:before, .clearfix:after, .grid_base_12:after, .inner_row:after, .grid_container:after {
+  content: " ";
+  display: table;
+}
+.clearfix:after, .grid_base_12:after, .inner_row:after, .grid_container:after {
+  clear: both;
+}
+
+/* -----------------------------
+   SASS Grid mixin
+   @author: Frej Raahede Nielsen
+   ----------------------------- */
+.grid_container {
+  max-width: 970px;
+}
+
+.grid_base_12 {
+  padding-left: 6.7%;
+  padding-right: 6.7%;
+}
+
+.grid_base_12 .grid_col_4, .grid_base_12 .grid_col_6, .grid_base_12 .grid_col_12, .overlay_grid .grid_col_1 {
+  margin-left: 1.78%;
+  margin-right: 1.78%;
+}
+.grid_base_12 .grid_col_4:before, .grid_base_12 .grid_col_6:before, .grid_base_12 .grid_col_12:before, .overlay_grid .grid_col_1:before {
+  /* Debug style only - this rule will not be present for production */
+  display: block;
+  top: 0;
+  left: 0;
+  font-size: 12px;
+  background-color: rgba(0, 0, 0, 0.4);
+  line-height: 12px;
+  padding: 1px 2px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.grid_base_12 .breakout {
+  margin-left: -7.7369%;
+  margin-right: -7.7369%;
+}
+
+.overlay_grid .grid_col_1 {
+  width: 4.76%;
+}
+.overlay_grid .grid_col_1:before {
+  /* Debug style only - this rule will not be present for production */
+  content: "1 columns";
+}
+
+.grid_base_12 .grid_col_4 {
+  width: 29.76%;
+}
+.grid_base_12 .grid_col_4:before {
+  /* Debug style only - this rule will not be present for production */
+  content: "4 columns";
+}
+
+.grid_base_12 .grid_col_6 {
+  width: 46.42%;
+}
+.grid_base_12 .grid_col_6:before {
+  /* Debug style only - this rule will not be present for production */
+  content: "6 columns";
+}
+
+.grid_base_12 .grid_col_12 {
+  width: 96.42%;
+}
+.grid_base_12 .grid_col_12:before {
+  /* Debug style only - this rule will not be present for production */
+  content: "12 columns";
+}
+
+/* IE6 fix: fixes double margin on floated elements */
+.ie6 .grid_base_12 .grid_col_4, .grid_base_12 .ie6 .grid_col_4, .ie6 .grid_base_12 .grid_col_6, .grid_base_12 .ie6 .grid_col_6, .ie6 .grid_base_12 .grid_col_12, .grid_base_12 .ie6 .grid_col_12, .ie6 .overlay_grid .grid_col_1, .overlay_grid .ie6 .grid_col_1 {
+  display: inline;
+}
+
+/* -----------------------------
+   SASS Grid mixin
+   @author: Frej Raahede Nielsen
+   ----------------------------- */
+.inner_row {
+  padding-left: 6.7%;
+  padding-right: 6.7%;
+}
+
+.inner_row .grid_col_2, .inner_row .grid_col_3, .inner_row .grid_col_5 {
+  margin-left: 1.78%;
+  margin-right: 1.78%;
+}
+.inner_row .grid_col_2:before, .inner_row .grid_col_3:before, .inner_row .grid_col_5:before {
+  /* Debug style only - this rule will not be present for production */
+  display: block;
+  top: 0;
+  left: 0;
+  font-size: 12px;
+  background-color: rgba(0, 0, 0, 0.4);
+  line-height: 12px;
+  padding: 1px 2px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.inner_row .grid_col_2 {
+  width: 36.42%;
+}
+.inner_row .grid_col_2:before {
+  /* Debug style only - this rule will not be present for production */
+  content: "2 columns";
+}
+
+.inner_row .grid_col_3 {
+  width: 56.42%;
+}
+.inner_row .grid_col_3:before {
+  /* Debug style only - this rule will not be present for production */
+  content: "3 columns";
+}
+
+.inner_row .grid_col_5 {
+  width: 96.42%;
+}
+.inner_row .grid_col_5:before {
+  /* Debug style only - this rule will not be present for production */
+  content: "5 columns";
+}
+
+/* IE6 fix: fixes double margin on floated elements */
+.ie6 .inner_row .grid_col_2, .inner_row .ie6 .grid_col_2, .ie6 .inner_row .grid_col_3, .inner_row .ie6 .grid_col_3, .ie6 .inner_row .grid_col_5, .inner_row .ie6 .grid_col_5 {
+  display: inline;
+}
+
+.grid_base_12 .grid_col_4, .grid_base_12 .grid_col_6, .grid_base_12 .grid_col_12, .inner_row .grid_col_2, .inner_row .grid_col_3, .inner_row .grid_col_5, .breakout, .overlay_grid .grid_col_1 {
+  float: left;
+}
+.main .grid_base_12 .grid_col_4, .grid_base_12 .main .grid_col_4, .main .grid_base_12 .grid_col_6, .grid_base_12 .main .grid_col_6, .main .grid_base_12 .grid_col_12, .grid_base_12 .main .grid_col_12, .main .inner_row .grid_col_2, .inner_row .main .grid_col_2, .main .inner_row .grid_col_3, .inner_row .main .grid_col_3, .main .inner_row .grid_col_5, .inner_row .main .grid_col_5, .main .breakout, .main .overlay_grid .grid_col_1, .overlay_grid .main .grid_col_1 {
+  padding-bottom: 2em;
+}
+
+.breakout {
+  background: #CCC;
+}
+
+.grid_container {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ------------------------------------------------------------- *
+ * Demo styles
+ * ------------------------------------------------------------- */
+.grid_base_12 .grid_col_4, .grid_base_12 .grid_col_6, .grid_base_12 .grid_col_12, .inner_row .grid_col_2, .inner_row .grid_col_3, .inner_row .grid_col_5, .breakout, .overlay_grid .grid_col_1 {
+  background: #D8E6FF;
+  text-align: center;
+  line-height: 40px;
+  min-height: 40px;
+  margin-bottom: 15px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -khtml-border-radius: 4px;
+  border-radius: 4px;
+}
+
+.overlay_grid .grid_col_1 {
+  background: none;
+}
+
+.breakout {
+  background: #C1F0C4;
+  line-height: normal;
+  text-align: left;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -khtml-border-radius: 0;
+  border-radius: 0;
+}
+
+        </pre>
+    </div> <!-- /layout_content -->
+</div>
+
+
+<p> <!-- /layout_wrapper --></p>
+
+<div id='html_source' class='layout_wrapper'>
+    <div class='layout_content'>
+        <pre>
+&lt;div class='grid_container'>
+    &lt;div class='grid_base_12'>
+        &lt;div class='grid_col_12'>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt pellentesque velit quis facilisis. Nunc felis arcu, luctus id tincidunt ut, hendrerit ac nunc. Quisque quis tortor at est tristique fermentum. Donec ligula nulla, porttitor placerat consectetur id, rhoncus non quam.
+        &lt;/div> &lt;!-- /grid_col_12 -->
+        &lt;div class='grid_col_6'>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt pellentesque velit quis facilisis. Nunc felis arcu, luctus id tincidunt ut, hendrerit ac nunc. Quisque quis tortor at est tristique fermentum. Donec ligula nulla, porttitor placerat consectetur id, rhoncus non quam.
+        &lt;/div> &lt;!-- /grid_col_6 -->
+        &lt;div class='grid_col_6'>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt pellentesque velit quis facilisis. Nunc felis arcu, luctus id tincidunt ut, hendrerit ac nunc. Quisque quis tortor at est tristique fermentum. Donec ligula nulla, porttitor placerat consectetur id, rhoncus non quam.
+        &lt;/div> &lt;!-- /grid_col_6 -->
+        &lt;div class='breakout'>
+            &lt;h3>Breakout!&lt;/h3>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt pellentesque velit quis facilisis. Nunc felis arcu, luctus id tincidunt ut, hendrerit ac nunc. Quisque quis tortor at est tristique fermentum. Donec ligula nulla, porttitor placerat consectetur id, rhoncus non quam.
+        &lt;/div> &lt;!-- /breakout -->
+        &lt;div class='inner_grid breakout'>
+            &lt;h3>Inner grid&lt;/h3>
+            &lt;div class='inner_row'>
+                &lt;div class='grid_col_5'>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt pellentesque velit quis facilisis. Nunc felis arcu, luctus id tincidunt ut, hendrerit ac nunc. Quisque quis tortor at est tristique fermentum. Donec ligula nulla, porttitor placerat consectetur id, rhoncus non quam.
+                &lt;/div> &lt;!-- /grid_col_5 -->
+                &lt;div class='grid_col_3'>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt pellentesque velit quis facilisis. Nunc felis arcu, luctus id tincidunt ut, hendrerit ac nunc. Quisque quis tortor at est tristique fermentum. Donec ligula nulla, porttitor placerat consectetur id, rhoncus non quam.
+                &lt;/div> &lt;!-- /grid_col_3 -->
+                &lt;div class='grid_col_2'>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt pellentesque velit quis facilisis. Nunc felis arcu, luctus id tincidunt ut, hendrerit ac nunc. Quisque quis tortor at est tristique fermentum. Donec ligula nulla, porttitor placerat consectetur id, rhoncus non quam.
+                &lt;/div> &lt;!-- /grid_col_2 -->
+                &lt;div class='grid_col_5'>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt pellentesque velit quis facilisis. Nunc felis arcu, luctus id tincidunt ut, hendrerit ac nunc. Quisque quis tortor at est tristique fermentum. Donec ligula nulla, porttitor placerat consectetur id, rhoncus non quam.
+                &lt;/div> &lt;!-- /grid_col_5 -->
+            &lt;/div> &lt;!-- /inner_row -->
+        &lt;/div> &lt;!-- /inner_grid breakout -->
+        &lt;div class='grid_col_4'>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt pellentesque velit quis facilisis. Nunc felis arcu, luctus id tincidunt ut, hendrerit ac nunc. Quisque quis tortor at est tristique fermentum. Donec ligula nulla, porttitor placerat consectetur id, rhoncus non quam.
+        &lt;/div> &lt;!-- /grid_col_4 -->
+        &lt;div class='grid_col_4'>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt pellentesque velit quis facilisis. Nunc felis arcu, luctus id tincidunt ut, hendrerit ac nunc. Quisque quis tortor at est tristique fermentum. Donec ligula nulla, porttitor placerat consectetur id, rhoncus non quam.
+        &lt;/div> &lt;!-- /grid_col_4 -->
+        &lt;div class='grid_col_4'>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt pellentesque velit quis facilisis. Nunc felis arcu, luctus id tincidunt ut, hendrerit ac nunc. Quisque quis tortor at est tristique fermentum. Donec ligula nulla, porttitor placerat consectetur id, rhoncus non quam.
+        &lt;/div> &lt;!-- /grid_col_4 -->
+    &lt;/div> &lt;!-- /grid_base_12 -->
+&lt;/div> &lt;!-- /grid_container -->
+        </pre>
+    </div> <!-- /layout_content -->
+</div>
+
+
+<p> <!-- /layout_wrapper --></p>
+
+<div class='grid_container'>
+    <div class='grid_base_12'>
+        <div class='grid_col_12'>
+            12
+        </div> <!-- /grid_col_12 -->
+        <div class='grid_col_6'>
+            6
+        </div> <!-- /grid_col_6 -->
+        <div class='grid_col_6'>
+            6
+        </div> <!-- /grid_col_6 -->
+        <div class='inner_grid breakout'>
+            <h4>Inner grid</h4>
+            <p>Here's an embedded grid with a 5 column base. We'll add some dummy text to this container for now, because the columns don't have any content, and therefore won't fill out the container, causing it to collase because of the floated elements.</p>
+            <div class='inner_row'>
+                <div class='grid_col_5'>
+                    5
+                </div> <!-- /grid_col_5 -->
+                <div class='grid_col_3'>
+                    3
+                </div> <!-- /grid_col_3 -->
+                <div class='grid_col_2'>
+                    2
+                </div> <!-- /grid_col_2 -->
+                <div class='grid_col_5'>
+                    5
+                </div> <!-- /grid_col_5 -->
+            </div> <!-- /inner_row -->
+        </div> <!-- /inner_grid breakout -->
+        <div class='grid_col_4'>
+            4
+        </div> <!-- /grid_col_4 -->
+        <div class='grid_col_4'>
+            4
+        </div> <!-- /grid_col_4 -->
+        <div class='grid_col_4'>
+            4
+        </div> <!-- /grid_col_4 -->
+    </div> <!-- /grid_base_12 -->
+</div>
+
+
+<p> <!-- /grid_container --></p>
+
+<div class='overlay_grid' id='overlay_grid'>
+    <div class='grid_container'>
+        <div class='grid_base_12'>
+            
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+    <div class='grid_col_1'>
+        <img src='../../assets/images/blank.png'>
+    </div> <!-- /grid_col_1 -->
+
+        </div> <!-- /grid_base_12 -->
+    </div> <!-- /grid_container -->
+</div>
+
+
+<p> <!-- /overlay_grid --></p>
+
+
+
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type='text/javascript'>
+	$(document).ready(function() {
+
+		$.each($("[data-toggler]"), function(){
+			var targetId = $(this).attr("data-target");
+			var $target = $("#"+targetId);
+			$(this).click(function(e){
+				e.preventDefault();
+				$(this).siblings(".btn-primary").click();
+				$target.toggleClass("active");
+				$(this).toggleClass("btn-primary");
+
+			});
+		});
+
+	});
+</script>
+
+
+</body>
+</html>

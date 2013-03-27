@@ -1,0 +1,87 @@
+/* -----------------------------
+   Clearfix
+   ----------------------------- */
+.clearfix, .grid, .wrapper {
+  zoom: 1;
+}
+.clearfix:before, .grid:before, .wrapper:before, .clearfix:after, .grid:after, .wrapper:after {
+  content: " ";
+  display: table;
+}
+.clearfix:after, .grid:after, .wrapper:after {
+  clear: both;
+}
+
+/* -----------------------------
+   SASS Grid mixin
+   @author: Frej Raahede Nielsen
+   ----------------------------- */
+.wrapper {
+  width: 970px;
+}
+
+.grid {
+  padding-left: 6.7%;
+  padding-right: 6.7%;
+}
+
+.grid .full, .grid .half, .grid .third, .grid .quarter, .overlay_grid .grid_col_1 {
+  margin-left: 1.78%;
+  margin-right: 1.78%;
+}
+
+.overlay_grid .grid_col_1 {
+  width: 4.76%;
+}
+
+.grid .quarter {
+  width: 21.42%;
+}
+
+.grid .third {
+  width: 29.76%;
+}
+
+.grid .half {
+  width: 46.42%;
+}
+
+.grid .full {
+  width: 96.42%;
+}
+
+/* IE6 fix: fixes double margin on floated elements */
+.ie6 .grid .full, .grid .ie6 .full, .ie6 .grid .half, .grid .ie6 .half, .ie6 .grid .third, .grid .ie6 .third, .ie6 .grid .quarter, .grid .ie6 .quarter, .ie6 .overlay_grid .grid_col_1, .overlay_grid .ie6 .grid_col_1 {
+  display: inline;
+}
+
+.grid .full, .grid .half, .grid .third, .grid .quarter, .overlay_grid .grid_col_1 {
+  float: left;
+}
+.main .grid .full, .grid .main .full, .main .grid .half, .grid .main .half, .main .grid .third, .grid .main .third, .main .grid .quarter, .grid .main .quarter, .main .overlay_grid .grid_col_1, .overlay_grid .main .grid_col_1 {
+  padding-bottom: 2em;
+}
+
+.wrapper {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ------------------------------------------------------------- *
+ * Demo styles
+ * ------------------------------------------------------------- */
+.grid .full, .grid .half, .grid .third, .grid .quarter, .overlay_grid .grid_col_1 {
+  background: #D8E6FF;
+  text-align: center;
+  line-height: 40px;
+  min-height: 40px;
+  margin-bottom: 15px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -khtml-border-radius: 4px;
+  border-radius: 4px;
+}
+
+.overlay_grid .grid_col_1 {
+  background: none;
+}

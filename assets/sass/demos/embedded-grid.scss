@@ -1,0 +1,141 @@
+// -------------------------------------------------------------
+// Importing grid core and clearfix
+// --------------------------------
+
+@import '../../externals/sassy-grid/sass/grid-core';
+@import '../../externals/sassy-grid/sass/clearfix';
+
+// -------------------------------------------------------------
+// Basic grid settings
+// -------------------
+
+$degredation-selector: '.no_media_queries';
+$ie6-selector: '.ie6';
+$grid-debug: true;
+
+// -------------------------------------------------------------
+// Defining main grid
+// -----------------
+
+@include define-grid-settings(
+    $grid-name: 'main-grid',
+    $is-fluid: true,
+    $column-width: 40,
+    $gutter-width: 30,
+    $gutter-property: 'margin',
+    $num-columns: 12,
+    $padding-left: 80,
+    $padding-right: 80
+);
+
+// -------------------------------------------------------------
+// Applying main grid
+// -----------------
+
+@include apply-grid(
+    $use-grid: 'main-grid',
+    $container-selector: '.grid_container',
+    $row-selector: '.grid_base_12',
+    $row-extend-selectors: '%grid_row',
+    $column-selector-prefix: '.grid_col_',
+    $column-extend-selectors: '%grid_col',
+    $output-column-styles-for: 4 6 12
+);
+
+// -------------------------------------------------------------
+// Defining inner grid
+// -------------------
+
+// Getting settings from main grid
+$full-width: return-grid-settings( 'main-grid', 'row-width' );
+$padding-left: return-grid-settings( 'main-grid', 'padding-left' );
+$padding-right: return-grid-settings( 'main-grid', 'padding-right' );
+$gutter: return-grid-settings( 'main-grid', 'gutter-width' );
+
+// Calculating column width for a 5 column grid relative to the main grid
+$inner-grid-column-width: ($full-width - $padding-left - $padding-right + $gutter) / 5 - $gutter;
+
+@include define-grid-settings(
+    $grid-name: 'inner-grid',
+    $is-fluid: true,
+    $column-width: $inner-grid-column-width,
+    $gutter-width: 30,
+    $gutter-property: 'margin',
+    $num-columns: 5,
+    $padding-left: 80,
+    $padding-right: 80
+);
+
+// -------------------------------------------------------------
+// Applying inner grid
+// -------------------
+
+@include apply-grid(
+    $use-grid: 'inner-grid',
+    $row-selector: '.inner_row',
+    $row-extend-selectors: '%grid_row',
+    $column-selector-prefix: '.grid_col_',
+    $column-extend-selectors: '%grid_col',
+    $output-column-styles-for: 2 3 5
+);
+
+// -------------------------------------------------------------
+// Basic grid styles
+// -----------------
+
+%grid_row{
+    @include clearfix;
+}
+
+%grid_col {
+    float: left;
+    .main &{
+        padding-bottom: 2em;
+    }
+}
+
+.breakout {
+    @extend %grid_col;
+    @include grid-breakout( 'main-grid' );
+    background: #CCC;
+}
+
+.grid_container{
+    @include clearfix;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ------------------------------------------------------------- *
+ * Demo styles
+ * ------------------------------------------------------------- */
+
+%grid_col{
+    background: #D8E6FF;
+    text-align: center;
+    line-height: 40px;
+    min-height: 40px;
+    margin-bottom: 15px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -khtml-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.overlay_grid{
+    .grid_col_1{
+        @extend %grid_col;
+        @include span-columns( $columns: 1, $grid-name: 'main-grid' );
+        background: none;
+    }
+}
+
+.breakout{
+    background: #C1F0C4;
+    line-height: normal;
+    text-align: left;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -khtml-border-radius: 0;
+    border-radius: 0;
+}
