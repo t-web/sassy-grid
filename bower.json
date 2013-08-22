@@ -1,0 +1,19 @@
+{
+  "name": "sassy-grid",
+  "version": "0.1.0",
+  "homepage": "https://github.com/springload/sassy-grid",
+  "authors": [
+    "Frej Raahede Nielsen",
+    "Josh Barr"
+    "Michael McGahan <mike.mcgahan@gmail.com>",
+  ],
+  "description": "A lightweight, fully featured responsive grid system using SASS",
+  "main": "sass/_grid-core.scss",
+  "keywords": [
+    "sass",
+    "responsive",
+    "grid"
+  ],
+  "license": "MIT",
+  "ignore": []
+}
