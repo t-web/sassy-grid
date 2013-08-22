@@ -5,6 +5,8 @@ The ultimate grid building framework.
 
 #### [Documentation](https://github.com/springload/sassy-grid/wiki) ⋅ [Examples](http://springload.github.com/sassy-grid/demos) ####
 
+![Grid diagram](grid-explained.png)
+
 #### Wide browser support ####
 Tested on: Chrome, Safari, Firefox, Internet Explorer (6-9).
 
